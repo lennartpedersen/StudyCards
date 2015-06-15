@@ -32,10 +32,6 @@ public class MainActivity extends AppCompatActivity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
-    private String str = "jksjkjksdjkjskjdskj";
-    int a = 10;
-    private String JesperErEnPleb = "Jesper er en fucking pleb";
-    String string = "kjdsk";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +41,6 @@ public class MainActivity extends AppCompatActivity
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
-
-        String str = "Update";
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
