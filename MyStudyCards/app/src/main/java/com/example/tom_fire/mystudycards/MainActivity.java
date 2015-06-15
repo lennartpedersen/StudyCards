@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity
     private CharSequence mTitle;
     private String str = "jksjkjksdjkjskjdskj";
     int a = 10;
+    private String JesperErEnPleb = "Jesper er en fucking pleb";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
