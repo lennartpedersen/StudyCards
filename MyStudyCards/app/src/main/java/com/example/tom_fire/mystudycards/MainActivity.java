@@ -32,9 +32,7 @@ public class MainActivity extends AppCompatActivity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
-    private String str = "jksjkjksdjkjskjdskj";
-    int a = 10;
-    private String JesperErEnPleb = "Jesper er en fucking pleb";
+    double b = 2.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
