@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity
     private String str = "jksjkjksdjkjskjdskj";
     int a = 10;
     private String JesperErEnPleb = "Jesper er en fucking pleb";
+    String sdf = "kjk";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
