@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity
      */
     private CharSequence mTitle;
     private String str = "jksjkjksdjkjskjdskj";
+    int a = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
