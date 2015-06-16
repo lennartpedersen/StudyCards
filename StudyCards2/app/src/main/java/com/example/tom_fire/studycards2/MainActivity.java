@@ -12,10 +12,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 
 public class MainActivity extends ActionBarActivity {
 
-
+    public ArrayList<String> categories = new ArrayList<String>();
 
 
     @Override
@@ -23,24 +25,14 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         final Button addCategory = (Button) findViewById(R.id.add_category);
         addCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(getApplicationContext(),"knappen virker",Toast.LENGTH_SHORT).show();
-                AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
-                alert.setTitle("New category");
-                alert.setMessage("Enter the name of the category");
-                final EditText input = new EditText(MainActivity.this);
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
-                input.setLayoutParams(lp);
-                alert.setView(input);
-                alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
+                CustomDialog cd = new CustomDialog(MainActivity.this);
+                cd.show();
             }
         });
     }
@@ -65,5 +57,9 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void addTitle(String title) {
+        categories.add(title);
     }
 }
