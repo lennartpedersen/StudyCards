@@ -31,8 +31,29 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(getApplicationContext(),"knappen virker",Toast.LENGTH_SHORT).show();
-                CustomDialog cd = new CustomDialog(MainActivity.this);
-                cd.show();
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+                alertDialog.setTitle("New category:");
+                alertDialog.setMessage("Enter name of new category");
+
+                final EditText input = new EditText(MainActivity.this);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+                input.setLayoutParams(lp);
+                alertDialog.setView(input);
+
+                alertDialog.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        categories.add(input.getText().toString());
+                        Toast.makeText(getApplicationContext(), input.getText().toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+                alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                alertDialog.show();
             }
         });
     }
@@ -59,7 +80,5 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void addTitle(String title) {
-        categories.add(title);
-    }
+
 }
