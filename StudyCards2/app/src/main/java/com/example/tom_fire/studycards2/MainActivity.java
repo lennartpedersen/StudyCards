@@ -42,25 +42,23 @@ public class MainActivity extends ActionBarActivity {
         fragtrac.commit();
 
         View view = (View) findViewById(R.id.fragment);
-        view.setOnTouchListener(new View.OnTouchListener() {
+        view.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    if (mShowingBack) {
-                        getFragmentManager().popBackStack();
-                        mShowingBack = false;
-                        return true;
-                    }
-                    mShowingBack = true;
-                    getFragmentManager().beginTransaction()
-                            .setCustomAnimations(R.animator.card_flip_hoejre_ind, R.animator.card_flip_hoejre_ud,
-                                    R.animator.card_flip_venstre_ind, R.animator.card_flip_venstre_ud)
-                            .replace(R.id.fragment, mFlashCardBackFragment)
-                            .addToBackStack(null)
-                            .commit();
+            public void onClick(View v) {
+                if (mShowingBack) {
+                    getFragmentManager().popBackStack();
+                    mShowingBack = false;
+                    return;
                 }
-                return true;
+                mShowingBack = true;
+                getFragmentManager().beginTransaction()
+                        .setCustomAnimations(R.animator.card_flip_hoejre_ind, R.animator.card_flip_hoejre_ud,
+                                R.animator.card_flip_venstre_ind, R.animator.card_flip_venstre_ud)
+                        .replace(R.id.fragment, mFlashCardBackFragment)
+                        .addToBackStack(null)
+                        .commit();
             }
+
         });
 
 
