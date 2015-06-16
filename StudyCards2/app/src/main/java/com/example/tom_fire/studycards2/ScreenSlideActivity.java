@@ -1,3 +1,4 @@
+
 package com.example.tom_fire.studycards2;
 
 import android.app.FragmentManager;
@@ -23,18 +24,18 @@ public class ScreenSlideActivity extends FragmentActivity {
         setContentView(R.layout.activity_screen_slide);
 
         mPager = (ViewPager) findViewById(R.id.pager);
-        mPagerAdapter = new ScreenSlidePagerAdapter(getFragmentManager());
+        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
-        public ScreenSlidePagerAdapter(FragmentManager fragmentManager) {
+        public ScreenSlidePagerAdapter(android.support.v4.app.FragmentManager fragmentManager) {
             super(fragmentManager);
         }
 
         @Override
-        public Fragment getItem(int position) {
+        public android.support.v4.app.Fragment getItem(int position) {
             return ScreenSlidePageFragment.create(position);
         }
 
@@ -44,3 +45,4 @@ public class ScreenSlideActivity extends FragmentActivity {
         }
     }
 }
+

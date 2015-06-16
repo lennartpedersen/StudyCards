@@ -15,8 +15,8 @@ public class ScreenSlidePageFragment extends Fragment{
 
     private int mPageNumber;
 
-    public static ScreenSlidePageFragment create(int pageNumber) {
-        ScreenSlidePageFragment fragment = new ScreenSlidePageFragment();
+    public static android.support.v4.app.Fragment create(int pageNumber) {
+        android.support.v4.app.Fragment fragment = new android.support.v4.app.Fragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PAGE,pageNumber);
         fragment.setArguments(args);
