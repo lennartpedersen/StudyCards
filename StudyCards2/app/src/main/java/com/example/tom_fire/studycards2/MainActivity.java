@@ -1,6 +1,8 @@
 package com.example.tom_fire.studycards2;
 
 import android.app.AlertDialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -15,16 +17,22 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 
+
 public class MainActivity extends ActionBarActivity {
 
     public ArrayList<String> categories = new ArrayList<String>();
-
+    private FlashCardFragment mFlashCardFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mFlashCardFragment = new FlashCardFragment();
+        FragmentManager frag = getFragmentManager();
+        FragmentTransaction fragtrac = frag.beginTransaction();
+        fragtrac.add(R.id.fragment,mFlashCardFragment);
+        fragtrac.commit();
 
         final Button addCategory = (Button) findViewById(R.id.add_category);
         addCategory.setOnClickListener(new View.OnClickListener() {
@@ -36,7 +44,7 @@ public class MainActivity extends ActionBarActivity {
                 alertDialog.setMessage("Enter name of new category");
 
                 final EditText input = new EditText(MainActivity.this);
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
                 input.setLayoutParams(lp);
                 alertDialog.setView(input);
 
@@ -44,6 +52,7 @@ public class MainActivity extends ActionBarActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         categories.add(input.getText().toString());
+                        mFlashCardFragment.updateQuestion(input.getText().toString());
                         Toast.makeText(getApplicationContext(), input.getText().toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
