@@ -1,12 +1,16 @@
 package com.example.tom_fire.studycards2;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.DragEvent;
 import android.view.GestureDetector;
+import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -18,6 +22,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import static android.view.GestureDetector.*;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -26,7 +31,6 @@ public class MainActivity extends ActionBarActivity {
     private FlashCardFragment mFlashCardFragment;
     private FlashCardFragmentBack mFlashCardBackFragment;
     private boolean mShowingBack = false;
-    private GestureDetector mDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,27 +45,46 @@ public class MainActivity extends ActionBarActivity {
         fragtrac.add(R.id.fragment, mFlashCardFragment);
         fragtrac.commit();
 
-        View view = (View) findViewById(R.id.fragment);
-        view.setOnClickListener(new View.OnClickListener() {
+        final View view = (View) findViewById(R.id.fragment);
+        view.setOnTouchListener(new OnSwipeListener(getApplicationContext()) {
+            long speed = 100;
             @Override
-            public void onClick(View v) {
-                if (mShowingBack) {
-                    getFragmentManager().popBackStack();
-                    mShowingBack = false;
-                    return;
+            public void onSwipeLeft() {
+                super.onSwipeLeft();
+                ObjectAnimator slideUd = ObjectAnimator.ofFloat(view, "x", -view.getWidth()).setDuration(speed);
+                ObjectAnimator usynlig = ObjectAnimator.ofFloat(view, "alpha", 0f).setDuration(1);
+                ObjectAnimator reset = ObjectAnimator.ofFloat(view, "x", view.getWidth()).setDuration(1);
+                ObjectAnimator synlig = ObjectAnimator.ofFloat(view, "alpha", 1f).setDuration(1);
+                ObjectAnimator slideInd = ObjectAnimator.ofFloat(view, "x", 0).setDuration(speed);
+                AnimatorSet set = new AnimatorSet();
+                set.playSequentially(slideUd, usynlig, reset, synlig, slideInd);
+                if(mShowingBack) {
+                    flipCard();
                 }
-                mShowingBack = true;
-                getFragmentManager().beginTransaction()
-                        .setCustomAnimations(R.animator.card_flip_hoejre_ind, R.animator.card_flip_hoejre_ud,
-                                R.animator.card_flip_venstre_ind, R.animator.card_flip_venstre_ud)
-                        .replace(R.id.fragment, mFlashCardBackFragment)
-                        .addToBackStack(null)
-                        .commit();
+                set.start();
             }
 
+            @Override
+            public void onSwipeRight() {
+                super.onSwipeRight();
+                ObjectAnimator slideUd = ObjectAnimator.ofFloat(view, "x", view.getWidth()).setDuration(speed);
+                ObjectAnimator usynlig = ObjectAnimator.ofFloat(view, "alpha", 0f).setDuration(1);
+                ObjectAnimator reset = ObjectAnimator.ofFloat(view, "x", -view.getWidth()).setDuration(1);
+                ObjectAnimator synlig = ObjectAnimator.ofFloat(view, "alpha", 1f).setDuration(1);
+                ObjectAnimator slideInd = ObjectAnimator.ofFloat(view, "x", 0).setDuration(speed);
+                AnimatorSet set = new AnimatorSet();
+                set.playSequentially(slideUd, usynlig, reset, synlig, slideInd);
+                if(mShowingBack) {
+                    flipCard();
+                }
+                set.start();
+            }
+
+            @Override
+            public void onTap() {
+                flipCard();
+            }
         });
-
-
 
         final Button addCategory = (Button) findViewById(R.id.add_category);
         addCategory.setOnClickListener(new View.OnClickListener() {
@@ -97,6 +120,20 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
+    public void flipCard() {
+        if (mShowingBack) {
+            getFragmentManager().popBackStack();
+            mShowingBack = false;
+            return;
+        }
+        mShowingBack = true;
+        getFragmentManager().beginTransaction()
+                .setCustomAnimations(R.animator.card_flip_hoejre_ind, R.animator.card_flip_hoejre_ud,
+                        R.animator.card_flip_venstre_ind, R.animator.card_flip_venstre_ud)
+                .replace(R.id.fragment, mFlashCardBackFragment)
+                .addToBackStack(null)
+                .commit();
+    }
 
 
     @Override
