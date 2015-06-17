@@ -3,6 +3,7 @@ package com.example.tom_fire.studycards2;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.TextView;
  */
 public class FlashCardFragmentBack extends Fragment {
     private TextView mTextView;
+    public DataManagement dataManagement;
 
     @Nullable
     @Override
@@ -23,10 +25,11 @@ public class FlashCardFragmentBack extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        updateQuestion("Back Side");
+        updateAnswer();
+        Log.d("as", "onActivityCreated back");
     }
-    void updateQuestion(String question) {
+    void updateAnswer() {
         mTextView = (TextView) getView().findViewById(R.id.card_view_back);
-        mTextView.setText(question);
+        mTextView.setText(dataManagement.getAnswers().get(dataManagement.getmCounter()));
     }
 }

@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.TextView;
  */
 public class FlashCardFragment extends Fragment {
     private TextView mTextView;
+    final public DataManagement dataManagement = new DataManagement();
 
     @Nullable
     @Override
@@ -24,11 +26,18 @@ public class FlashCardFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        updateQuestion("Front card");
+        updateQuestion();
+        Log.d("as", "onActivityCreated front");
+        Log.d("as",dataManagement.getQuestions().get(0));
+        Log.d("as",dataManagement.getQuestions().get(1));
+        Log.d("as",dataManagement.getQuestions().get(2));
     }
-    void updateQuestion(String question) {
+    void updateQuestion() {
+        Log.d("as","updateQuestion");
         mTextView = (TextView) getView().findViewById(R.id.card_view);
-        mTextView.setText(question);
+        mTextView.setText(dataManagement.getQuestions().get(dataManagement.getmCounter()));
+        Log.d("as", ""+dataManagement.getmCounter());
+        Log.d("as",dataManagement.getQuestions().get(dataManagement.getmCounter()));
     }
 
 

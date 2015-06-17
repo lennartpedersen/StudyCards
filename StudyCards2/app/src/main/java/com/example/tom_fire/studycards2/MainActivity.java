@@ -8,6 +8,7 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -31,6 +33,7 @@ public class MainActivity extends ActionBarActivity {
     private FlashCardFragment mFlashCardFragment;
     private FlashCardFragmentBack mFlashCardBackFragment;
     private boolean mShowingBack = false;
+    private DataManagement dataManagement;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +48,13 @@ public class MainActivity extends ActionBarActivity {
         fragtrac.add(R.id.fragment, mFlashCardFragment);
         fragtrac.commit();
 
+        dataManagement = mFlashCardFragment.dataManagement;
+        mFlashCardBackFragment.dataManagement = dataManagement;
+
         final View view = (View) findViewById(R.id.fragment);
         view.setOnTouchListener(new OnSwipeListener(getApplicationContext()) {
             long speed = 100;
+
             @Override
             public void onSwipeLeft() {
                 super.onSwipeLeft();
@@ -58,10 +65,14 @@ public class MainActivity extends ActionBarActivity {
                 ObjectAnimator slideInd = ObjectAnimator.ofFloat(view, "x", 0).setDuration(speed);
                 AnimatorSet set = new AnimatorSet();
                 set.playSequentially(slideUd, usynlig, reset, synlig, slideInd);
-                if(mShowingBack) {
+                if (mShowingBack) {
                     flipCard();
                 }
                 set.start();
+                dataManagement.decCounter();
+                mFlashCardFragment.updateQuestion();
+                Log.d("as","swipe");
+                Toast.makeText(getApplicationContext(), ""+dataManagement.getmCounter(),Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -74,10 +85,13 @@ public class MainActivity extends ActionBarActivity {
                 ObjectAnimator slideInd = ObjectAnimator.ofFloat(view, "x", 0).setDuration(speed);
                 AnimatorSet set = new AnimatorSet();
                 set.playSequentially(slideUd, usynlig, reset, synlig, slideInd);
-                if(mShowingBack) {
+                if (mShowingBack) {
                     flipCard();
                 }
                 set.start();
+                dataManagement.incCounter();
+                mFlashCardFragment.updateQuestion();
+                Toast.makeText(getApplicationContext(), ""+dataManagement.getmCounter(),Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -104,7 +118,7 @@ public class MainActivity extends ActionBarActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         categories.add(input.getText().toString());
-                        mFlashCardFragment.updateQuestion(input.getText().toString());
+                       // mFlashCardFragment.updateQuestion(input.getText().toString());
                         Toast.makeText(getApplicationContext(), input.getText().toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -119,6 +133,7 @@ public class MainActivity extends ActionBarActivity {
         });
 
     }
+
 
     public void flipCard() {
         if (mShowingBack) {
